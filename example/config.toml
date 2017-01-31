@@ -1,0 +1,9 @@
+queue_name = "example_queue"
+reconnect_time = 5
+prefetch_count = 50
+
+[rabbit]
+user = "guest"
+password = "guest"
+host = "rabbit"
+port = 5672
