@@ -1,3 +1,5 @@
+test_string = "test config string"
+
 queue_name = "example_queue"
 reconnect_time = 5
 prefetch_count = 50

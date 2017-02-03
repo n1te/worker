@@ -25,12 +25,9 @@ type Config struct {
 	Rabbit        Rabbit
 }
 
-func LoadConfig(configFile string) Config {
-
-	config := Config{}
-	if _, err := toml.DecodeFile(configFile, &config); err != nil {
+func LoadConfigFromFile(object interface{}, configFile string) {
+	_, err := toml.DecodeFile(configFile, object)
+	if err != nil {
 		log.Fatal(err)
 	}
-
-	return config
 }

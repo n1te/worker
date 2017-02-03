@@ -8,7 +8,7 @@ type Consumer struct {
 	q    amqp.Queue
 }
 
-func (c Consumer) Connect(conf Config) (<-chan amqp.Delivery, error) {
+func (c Consumer) Connect(conf *Config) (<-chan amqp.Delivery, error) {
 	var err error
 	c.conn, err = amqp.Dial(conf.Rabbit.GetConnectionString())
 	if err != nil {

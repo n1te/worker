@@ -2,14 +2,10 @@ package worker
 
 import (
 	"log"
-	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/streadway/amqp"
 )
-
-var conf Config
 
 type Job func([]byte) bool
 
@@ -27,13 +23,10 @@ func (w Worker) run_job(d amqp.Delivery, job Job) {
 	}
 }
 
-func (w Worker) Run(job Job) {
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	conf = LoadConfig(dir + "/config.toml")
-
+func (w Worker) Run(job Job, config *Config) {
 	c := Consumer{}
 	var err error
-	deliveries, err := c.Connect(conf)
+	deliveries, err := c.Connect(config)
 	if err != nil {
 		log.Fatalf(" [*] Connection error: %s, exiting...", err)
 	}
@@ -45,10 +38,10 @@ func (w Worker) Run(job Job) {
 		if ok {
 			go w.run_job(d, job)
 		} else {
-			log.Printf(" [*] Connection closed. Trying to reconnect in %d seconds...", conf.ReconnectTime)
+			log.Printf(" [*] Connection closed. Trying to reconnect in %d seconds...", config.ReconnectTime)
 			for {
-				time.Sleep(time.Second * time.Duration(conf.ReconnectTime))
-				deliveries, err = c.Connect(conf)
+				time.Sleep(time.Second * time.Duration(config.ReconnectTime))
+				deliveries, err = c.Connect(config)
 				if err != nil {
 					log.Printf(" [*] Reconnect failed: %s", err)
 				} else {
