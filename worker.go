@@ -13,9 +13,8 @@ type Worker struct {
 }
 
 func (w Worker) run_job(d amqp.Delivery, job Job) {
-	log.Printf("Received a message: %s", d.Body)
 	result := job(d.Body)
-	log.Print("Done")
+
 	if result {
 		d.Ack(false)
 	} else {
@@ -24,8 +23,9 @@ func (w Worker) run_job(d amqp.Delivery, job Job) {
 }
 
 func (w Worker) Run(job Job, config *Config) {
-	c := Consumer{}
 	var err error
+
+	c := Consumer{}
 	deliveries, err := c.Connect(config)
 	if err != nil {
 		log.Fatalf(" [*] Connection error: %s, exiting...", err)

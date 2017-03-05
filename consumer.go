@@ -10,6 +10,7 @@ type Consumer struct {
 
 func (c Consumer) Connect(conf *Config) (<-chan amqp.Delivery, error) {
 	var err error
+
 	c.conn, err = amqp.Dial(conf.Rabbit.GetConnectionString())
 	if err != nil {
 		return nil, err

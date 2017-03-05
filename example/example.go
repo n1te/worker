@@ -16,7 +16,7 @@ type MyConfig struct {
 var c MyConfig
 
 func job(data []byte) bool {
-	log.Print(c.TestString)
+	log.Printf("Received a message: %s", data)
 	return true
 }
 
