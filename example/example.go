@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/n1te/worker"
 	"log"
 	"path/filepath"
 	"os"
+
+	"github.com/n1te/worker"
 )
 
 type MyConfig struct {
